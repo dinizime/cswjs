@@ -27,11 +27,12 @@ console.log(error);
 });
 
 //define the collections
+//FIXME context
 for(var key in settings.layers){
 	var layer = settings.layers[key];
 	var layerModel = db.model(key, resultSchema);
 	model[key] = layerModel;
-	context[key] = require(layer.context);
+	//context[key] = require(layer.context);
 }
 
 //GetRecords
