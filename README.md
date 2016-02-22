@@ -1,4 +1,4 @@
-# cswjs
+# CSW.js
 A simple implementation of a RESTFul JSON-oriented Catalogue Service for the Web (CSW) using Node.js.
 
 Data is stored in a MongoDB. Config.json is used to configure the application.
