@@ -12,11 +12,12 @@ var tv4 = utils.tv4;
 
 var availableLayers = [];
 var layerSchema = {};
+//FIXME schemas
 for (var key in settings.layers) {
 	availableLayers.push(key);
-	var schema = require(settings.layers[key].schemaLocation);
-	tv4.addSchema(settings.layers[key].schemaName, schema);
-	layerSchema[key] = schema;
+	//var schema = require(settings.layers[key].schemaLocation);
+	//tv4.addSchema(settings.layers[key].schemaName, schema);
+	//layerSchema[key] = schema;
 }
 
 //opens JSON-LD values
