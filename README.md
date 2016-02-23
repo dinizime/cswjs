@@ -1,9 +1,17 @@
 # CSW.js
 A simple implementation of a RESTFul JSON-oriented Catalogue Service for the Web (CSW) using Node.js.
 
-Data is stored in a MongoDB. Config.json is used to configure the application.
+Data is stored in a MongoDB. [Config.json](https://github.com/dinizime/cswjs/blob/master/config.json) is used to configure the application.
 
 It is a simplified version of [WFS.js](https://github.com/dinizime/wfsjs) used to store metadata, workflows, and parametric workflows, for the use in the [Orchestration Client](https://github.com/dinizime/orchestration-client).
+
+##Executing Service
+
+After configuring the [Config.json](https://github.com/dinizime/cswjs/blob/master/config.json) file the service can be started by using [Nodemon](https://github.com/remy/nodemon), and executing the command:
+
+```
+nodemon bin/wwww
+```
 
 ## Dependencies
 * [Node.js](https://nodejs.org/en/)
