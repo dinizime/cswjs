@@ -1,0 +1,2095 @@
+{
+  "@type": "paramworkflows",
+  "type": "paramworkflows",
+  "records": [
+    {
+      "name": "buffer1000",
+      "type": "Subgraph",
+      "inputs": [
+        "input"
+      ],
+      "outputs": [
+        "buffered"
+      ],
+      "workflow": {
+        "tasks": [
+          {
+            "name": "Buffer",
+            "url": "http://localhost:3000/wps/buffer/jobs",
+            "type": "WPS",
+            "inputs": [
+              "features",
+              "distance",
+              "unit"
+            ],
+            "outputs": [
+              "buffered"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#in": [
+                      "unit",
+                      {
+                        "#literal": [
+                          "miles",
+                          "kilometers",
+                          "degrees",
+                          "radians"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#gt": [
+                      "distance",
+                      {
+                        "#literal": 0
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "buffered.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buffered.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "distance": {
+                  "type": "Real",
+                  "required": true,
+                  "unique": true
+                },
+                "unit": {
+                  "type": "String",
+                  "required": false,
+                  "unique": true,
+                  "default": "meters"
+                }
+              },
+              "outputTypes": {
+                "buffered": {
+                  "typePropagation": {
+                    "#addattrs": [
+                      {
+                        "#typeof": "features"
+                      },
+                      {
+                        "#record": {
+                          "geom": {
+                            "#union": [
+                              "MultiPolygon",
+                              "Polygon"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "MultiPolygon",
+                            "Polygon"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:0",
+            "@type": "task",
+            "style": {
+              "x": 364.43844788428396,
+              "y": 319,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Literal",
+            "type": "Literal",
+            "inputs": [],
+            "outputs": [
+              "literal"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "literal": {
+                  "type": "Real"
+                }
+              }
+            },
+            "@id": "task:1",
+            "@type": "task",
+            "style": {
+              "x": 536.5558028155938,
+              "y": 70,
+              "hover": false,
+              "zIndex": 1
+            },
+            "value": 1000
+          },
+          {
+            "name": "input",
+            "type": "Input Parameter",
+            "inputs": [],
+            "outputs": [
+              "inputParam"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "inputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:2",
+            "@type": "task",
+            "style": {
+              "x": 252.08198194298893,
+              "y": 43,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "buffered",
+            "type": "Output Parameter",
+            "inputs": [
+              "outputParam"
+            ],
+            "outputs": [],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": {
+                "outputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "MultiPolygon",
+                            "Polygon"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": null
+            },
+            "@id": "task:3",
+            "@type": "task",
+            "style": {
+              "x": 369.16535759251565,
+              "y": 554,
+              "hover": false,
+              "zIndex": 2
+            }
+          }
+        ],
+        "sequenceFlows": [
+          {
+            "from": "task:1",
+            "fromPort": "literal",
+            "to": "task:0",
+            "toPort": "distance",
+            "@type": "flow",
+            "@id": "flow:0",
+            "style": {
+              "source": {
+                "x": 626.5558028155938,
+                "y": 166
+              },
+              "dest": {
+                "x": 454.43844788428396,
+                "y": 319
+              }
+            }
+          },
+          {
+            "from": "task:2",
+            "fromPort": "inputParam",
+            "to": "task:0",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:1",
+            "style": {
+              "source": {
+                "x": 342.08198194298893,
+                "y": 139
+              },
+              "dest": {
+                "x": 409.43844788428396,
+                "y": 319
+              }
+            }
+          },
+          {
+            "from": "task:0",
+            "fromPort": "buffered",
+            "to": "task:3",
+            "toPort": "outputParam",
+            "@type": "flow",
+            "@id": "flow:2",
+            "style": {
+              "source": {
+                "x": 454.43844788428396,
+                "y": 415
+              },
+              "dest": {
+                "x": 459.16535759251565,
+                "y": 554
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "name": "buffer1000",
+          "description": "Buffer with fixed distance 1000"
+        }
+      },
+      "metadata": {
+        "preCondition": null,
+        "postCondition": null,
+        "inputTypes": {
+          "input": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": "Geometry"
+                }
+              }
+            }
+          }
+        },
+        "outputTypes": {
+          "buffered": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": {
+                    "#union": [
+                      "MultiPolygon",
+                      "Polygon"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": true,
+            "unique": true
+          }
+        }
+      },
+      "layerID": "paramworkflows",
+      "id": "workflow:40dd5830-d70e-11e5-804d-4958fb7cf92c"
+    },
+    {
+      "name": "Parametric Distribution Emergency Centers",
+      "type": "Subgraph",
+      "inputs": [
+        "river"
+      ],
+      "outputs": [
+        "result"
+      ],
+      "workflow": {
+        "tasks": [
+          {
+            "name": "Buildings",
+            "url": "http://localhost:3001/wfs/buildings?bbox=5.902,51.949,5.947,51.984",
+            "type": "WFS",
+            "inputs": [],
+            "outputs": [
+              "buildings"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "buildings.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buildings.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buildings.geom.bbox",
+                      {
+                        "#literal": [
+                          5.90202,
+                          51.94901,
+                          5.94692,
+                          51.98395
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buildings.geom.bboxFormat",
+                      {
+                        "#literal": "GeoJSON"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buildings.geom.bboxCrs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "inputTypes": null,
+              "outputTypes": {
+                "buildings": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "type": "String",
+                        "area": "Real"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:7",
+            "@type": "task",
+            "style": {
+              "x": 34.482471995987,
+              "y": 190,
+              "zIndex": 1,
+              "hover": false
+            }
+          },
+          {
+            "name": "Emergency Centers",
+            "url": "http://localhost:3001/wfs/emergency",
+            "type": "WFS",
+            "inputs": [],
+            "outputs": [
+              "emergency"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "emergency.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "emergency.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "emergency.geom.bbox",
+                      {
+                        "#literal": [
+                          5.901460647583008,
+                          51.954131213374254,
+                          5.942659378051758,
+                          51.982554217750945
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "emergency.geom.bboxFormat",
+                      {
+                        "#literal": "GeoJSON"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "emergency.geom.bboxCrs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "inputTypes": null,
+              "outputTypes": {
+                "emergency": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Point",
+                        "name": "String",
+                        "address": "String"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:8",
+            "@type": "task",
+            "style": {
+              "x": 1055.820903523825,
+              "y": 226,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Intersects",
+            "url": "http://localhost:3000/wps/intersects/jobs",
+            "type": "WPS",
+            "inputs": [
+              "filter",
+              "features"
+            ],
+            "outputs": [
+              "passed",
+              "failed"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      "filter.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "filter.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "passed.geom.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "failed.geom.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "passed.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "failed.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#within": [
+                      "passed.geom.bbox",
+                      "filter.geom.bbox"
+                    ]
+                  },
+                  {
+                    "#within": [
+                      "failed.geom.bbox",
+                      "features.geom.bbox"
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "filter": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": {
+                "passed": {
+                  "typePropagation": {
+                    "#typeof": "features"
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Point",
+                        "name": "String",
+                        "address": "String"
+                      }
+                    }
+                  }
+                },
+                "failed": {
+                  "typePropagation": {
+                    "#typeof": "features"
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Point",
+                        "name": "String",
+                        "address": "String"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:10",
+            "@type": "task",
+            "style": {
+              "x": 806.8658290887251,
+              "y": 393,
+              "zIndex": 1,
+              "hover": false
+            }
+          },
+          {
+            "name": "Intersects",
+            "url": "http://localhost:3000/wps/intersects/jobs",
+            "type": "WPS",
+            "inputs": [
+              "filter",
+              "features"
+            ],
+            "outputs": [
+              "passed",
+              "failed"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      "filter.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "filter.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "passed.geom.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "failed.geom.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "passed.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "failed.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#within": [
+                      "passed.geom.bbox",
+                      "filter.geom.bbox"
+                    ]
+                  },
+                  {
+                    "#within": [
+                      "failed.geom.bbox",
+                      "features.geom.bbox"
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "filter": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": {
+                "passed": {
+                  "typePropagation": {
+                    "#typeof": "features"
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "type": "String",
+                        "area": "Real"
+                      }
+                    }
+                  }
+                },
+                "failed": {
+                  "typePropagation": {
+                    "#typeof": "features"
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "type": "String",
+                        "area": "Real"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:11",
+            "@type": "task",
+            "style": {
+              "x": 214.02193561848253,
+              "y": 388,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Buffer",
+            "url": "http://localhost:3000/wps/buffer/jobs",
+            "type": "WPS",
+            "inputs": [
+              "features",
+              "distance",
+              "unit"
+            ],
+            "outputs": [
+              "buffered"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#in": [
+                      "unit",
+                      {
+                        "#literal": [
+                          "miles",
+                          "kilometers",
+                          "degrees",
+                          "radians"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#gt": [
+                      "distance",
+                      {
+                        "#literal": 0
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "buffered.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buffered.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "distance": {
+                  "type": "Real",
+                  "required": true,
+                  "unique": true
+                },
+                "unit": {
+                  "type": "String",
+                  "required": false,
+                  "unique": true,
+                  "default": "meters"
+                }
+              },
+              "outputTypes": {
+                "buffered": {
+                  "typePropagation": {
+                    "#addattrs": [
+                      {
+                        "#typeof": "features"
+                      },
+                      {
+                        "#record": {
+                          "geom": {
+                            "#union": [
+                              "MultiPolygon",
+                              "Polygon"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "MultiPolygon",
+                            "Polygon"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:12",
+            "@type": "task",
+            "style": {
+              "x": 376.25674456730485,
+              "y": 193,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Literal",
+            "type": "Literal",
+            "inputs": [],
+            "outputs": [
+              "literal"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "literal": {
+                  "type": "Real"
+                }
+              }
+            },
+            "@id": "task:13",
+            "@type": "task",
+            "style": {
+              "x": 503.85854491312057,
+              "y": 15,
+              "hover": false,
+              "zIndex": 1
+            },
+            "value": 1000
+          },
+          {
+            "name": "BBOX",
+            "url": "http://localhost:3000/wps/bbox/jobs",
+            "type": "WPS",
+            "inputs": [
+              "features"
+            ],
+            "outputs": [
+              "bbox"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "bbox.dimension",
+                      "features.geom.dimension"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "bbox.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "bbox.format",
+                      {
+                        "#literal": "GeoJSON"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": {
+                "bbox": {
+                  "typePropagation": "BBOX",
+                  "type": "BBOX"
+                }
+              }
+            },
+            "@id": "task:14",
+            "@type": "task",
+            "style": {
+              "x": 490.6956791235134,
+              "y": 397,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Voronoi",
+            "url": "http://localhost:3000/wps/voronoi/jobs",
+            "type": "WPS",
+            "inputs": [
+              "bbox",
+              "features"
+            ],
+            "outputs": [
+              "voronoi"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "bbox.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "bbox.format",
+                      {
+                        "#literal": "GeoJSON"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "bbox.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#within": [
+                      "features.geom.bbox",
+                      "bbox"
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "voronoi.geom.crs",
+                      "features.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "voronoi.geom.bbox",
+                      "bbox"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "voronoi.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "voronoi.geom.bboxCrs",
+                      "features.geom.bboxCrs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "voronoi.geom.bboxFormat",
+                      "features.geom.bboxFormat"
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "bbox": {
+                  "type": "BBOX",
+                  "required": true,
+                  "unique": true
+                },
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Point"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": {
+                "voronoi": {
+                  "typePropagation": {
+                    "#addattrs": [
+                      {
+                        "#typeof": "features"
+                      },
+                      {
+                        "#record": {
+                          "geom": "Polygon"
+                        }
+                      }
+                    ]
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "name": "String",
+                        "address": "String"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:15",
+            "@type": "task",
+            "style": {
+              "x": 649.1463996302336,
+              "y": 563,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Aggregate Count",
+            "url": "http://localhost:3000/wps/aggregatecount/jobs",
+            "type": "WPS",
+            "inputs": [
+              "reference",
+              "features"
+            ],
+            "outputs": [
+              "aggregate"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      "reference.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "reference.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "aggregate.geom.crs",
+                      "reference.geom.crs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "aggregate.geom.bbox",
+                      "reference.geom.bbox"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "aggregate.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "aggregate.geom.bboxCrs",
+                      "reference.geom.bboxCrs"
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "aggregate.geom.bboxFormat",
+                      "reference.geom.bboxFormat"
+                    ]
+                  },
+                  {
+                    "#gte": [
+                      "aggregate.count",
+                      {
+                        "#literal": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "reference": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "Polygon",
+                            "MultiPolygon"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": {
+                "aggregate": {
+                  "typePropagation": {
+                    "#addattrs": [
+                      {
+                        "#typeof": "reference"
+                      },
+                      {
+                        "#record": {
+                          "count": "Integer"
+                        }
+                      }
+                    ]
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "name": "String",
+                        "address": "String",
+                        "count": "Integer"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:16",
+            "@type": "task",
+            "style": {
+              "x": 349.7411414347589,
+              "y": 664,
+              "hover": false,
+              "zIndex": 2
+            }
+          },
+          {
+            "name": "river",
+            "type": "Input Parameter",
+            "inputs": [],
+            "outputs": [
+              "inputParam"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "inputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:17",
+            "@type": "task",
+            "style": {
+              "x": 208.31408185791224,
+              "y": 9,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "result",
+            "type": "Output Parameter",
+            "inputs": [
+              "outputParam"
+            ],
+            "outputs": [],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": {
+                "outputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Polygon",
+                        "name": "String",
+                        "address": "String",
+                        "count": "Integer"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": null
+            },
+            "@id": "task:18",
+            "@type": "task",
+            "style": {
+              "x": 822.8554671294987,
+              "y": 720,
+              "hover": false,
+              "zIndex": 1
+            }
+          }
+        ],
+        "sequenceFlows": [
+          {
+            "from": "task:7",
+            "fromPort": "buildings",
+            "to": "task:11",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:3",
+            "style": {
+              "source": {
+                "x": 124.482471995987,
+                "y": 286
+              },
+              "dest": {
+                "x": 334.02193561848253,
+                "y": 388
+              }
+            }
+          },
+          {
+            "from": "task:12",
+            "fromPort": "buffered",
+            "to": "task:11",
+            "toPort": "filter",
+            "@type": "flow",
+            "@id": "flow:5",
+            "style": {
+              "source": {
+                "x": 466.25674456730485,
+                "y": 289
+              },
+              "dest": {
+                "x": 274.02193561848253,
+                "y": 388
+              }
+            }
+          },
+          {
+            "from": "task:13",
+            "fromPort": "literal",
+            "to": "task:12",
+            "toPort": "distance",
+            "@type": "flow",
+            "@id": "flow:6",
+            "style": {
+              "source": {
+                "x": 593.8585449131206,
+                "y": 111
+              },
+              "dest": {
+                "x": 466.25674456730485,
+                "y": 193
+              }
+            }
+          },
+          {
+            "from": "task:8",
+            "fromPort": "emergency",
+            "to": "task:10",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:7",
+            "style": {
+              "source": {
+                "x": 1145.820903523825,
+                "y": 322
+              },
+              "dest": {
+                "x": 926.8658290887251,
+                "y": 393
+              }
+            }
+          },
+          {
+            "from": "task:12",
+            "fromPort": "buffered",
+            "to": "task:10",
+            "toPort": "filter",
+            "@type": "flow",
+            "@id": "flow:8",
+            "style": {
+              "source": {
+                "x": 466.25674456730485,
+                "y": 289
+              },
+              "dest": {
+                "x": 866.8658290887251,
+                "y": 393
+              }
+            }
+          },
+          {
+            "from": "task:12",
+            "fromPort": "buffered",
+            "to": "task:14",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:9",
+            "style": {
+              "source": {
+                "x": 466.25674456730485,
+                "y": 289
+              },
+              "dest": {
+                "x": 580.6956791235134,
+                "y": 397
+              }
+            }
+          },
+          {
+            "from": "task:10",
+            "fromPort": "failed",
+            "to": "task:15",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:10",
+            "style": {
+              "source": {
+                "x": 926.8658290887251,
+                "y": 489
+              },
+              "dest": {
+                "x": 769.1463996302336,
+                "y": 563
+              }
+            }
+          },
+          {
+            "from": "task:14",
+            "fromPort": "bbox",
+            "to": "task:15",
+            "toPort": "bbox",
+            "@type": "flow",
+            "@id": "flow:11",
+            "style": {
+              "source": {
+                "x": 580.6956791235134,
+                "y": 493
+              },
+              "dest": {
+                "x": 709.1463996302336,
+                "y": 563
+              }
+            }
+          },
+          {
+            "from": "task:11",
+            "fromPort": "passed",
+            "to": "task:16",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:12",
+            "style": {
+              "source": {
+                "x": 274.02193561848253,
+                "y": 484
+              },
+              "dest": {
+                "x": 469.7411414347589,
+                "y": 664
+              }
+            }
+          },
+          {
+            "from": "task:15",
+            "fromPort": "voronoi",
+            "to": "task:16",
+            "toPort": "reference",
+            "@type": "flow",
+            "@id": "flow:13",
+            "style": {
+              "source": {
+                "x": 739.1463996302336,
+                "y": 659
+              },
+              "dest": {
+                "x": 409.7411414347589,
+                "y": 664
+              }
+            }
+          },
+          {
+            "from": "task:17",
+            "fromPort": "inputParam",
+            "to": "task:12",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:14",
+            "style": {
+              "source": {
+                "x": 298.31408185791224,
+                "y": 105
+              },
+              "dest": {
+                "x": 421.25674456730485,
+                "y": 193
+              }
+            }
+          },
+          {
+            "from": "task:16",
+            "fromPort": "aggregate",
+            "to": "task:18",
+            "toPort": "outputParam",
+            "@type": "flow",
+            "@id": "flow:15",
+            "style": {
+              "source": {
+                "x": 439.7411414347589,
+                "y": 760
+              },
+              "dest": {
+                "x": 912.8554671294987,
+                "y": 720
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "name": "Parametric Distribution Emergency Centers",
+          "description": "Parametric version of distribution emergency centers"
+        },
+        "id": "workflow:ac5d3c10-d713-11e5-a771-5b29fe5ec57b"
+      },
+      "metadata": {
+        "preCondition": null,
+        "postCondition": null,
+        "inputTypes": {
+          "river": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": "Geometry"
+                }
+              }
+            }
+          }
+        },
+        "outputTypes": {
+          "result": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": "Polygon",
+                  "name": "String",
+                  "address": "String",
+                  "count": "Integer"
+                }
+              }
+            },
+            "required": true,
+            "unique": true
+          }
+        }
+      },
+      "layerID": "paramworkflows",
+      "id": "workflow:5320b780-d740-11e5-a771-5b29fe5ec57b"
+    },
+    {
+      "name": "sdfdfs",
+      "type": "Subgraph",
+      "inputs": [
+        "input"
+      ],
+      "outputs": [
+        "buffered"
+      ],
+      "workflow": {
+        "tasks": [
+          {
+            "name": "Buffer",
+            "url": "http://localhost:3000/wps/buffer/jobs",
+            "type": "WPS",
+            "inputs": [
+              "features",
+              "distance",
+              "unit"
+            ],
+            "outputs": [
+              "buffered"
+            ],
+            "metadata": {
+              "preCondition": {
+                "#and": [
+                  {
+                    "#in": [
+                      "unit",
+                      {
+                        "#literal": [
+                          "miles",
+                          "kilometers",
+                          "degrees",
+                          "radians"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "#gt": [
+                      "distance",
+                      {
+                        "#literal": 0
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "features.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "postCondition": {
+                "#and": [
+                  {
+                    "#eq": [
+                      "buffered.geom.crs",
+                      {
+                        "#literal": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                      }
+                    ]
+                  },
+                  {
+                    "#eq": [
+                      "buffered.geom.dimension",
+                      {
+                        "#literal": [
+                          "x",
+                          "y"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "propagatedPostCondition": null,
+              "inputTypes": {
+                "features": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                },
+                "distance": {
+                  "type": "Real",
+                  "required": true,
+                  "unique": true
+                },
+                "unit": {
+                  "type": "String",
+                  "required": false,
+                  "unique": true,
+                  "default": "meters"
+                }
+              },
+              "outputTypes": {
+                "buffered": {
+                  "typePropagation": {
+                    "#addattrs": [
+                      {
+                        "#typeof": "features"
+                      },
+                      {
+                        "#record": {
+                          "geom": {
+                            "#union": [
+                              "MultiPolygon",
+                              "Polygon"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "MultiPolygon",
+                            "Polygon"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:0",
+            "@type": "task",
+            "style": {
+              "x": 364.43844788428396,
+              "y": 319,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "Literal",
+            "type": "Literal",
+            "inputs": [],
+            "outputs": [
+              "literal"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "literal": {
+                  "type": "Real"
+                }
+              }
+            },
+            "@id": "task:1",
+            "@type": "task",
+            "style": {
+              "x": 536.5558028155938,
+              "y": 70,
+              "hover": false,
+              "zIndex": 1
+            },
+            "value": 1000
+          },
+          {
+            "name": "input",
+            "type": "Input Parameter",
+            "inputs": [],
+            "outputs": [
+              "inputParam"
+            ],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": null,
+              "outputTypes": {
+                "inputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": "Geometry"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "@id": "task:2",
+            "@type": "task",
+            "style": {
+              "x": 252.08198194298893,
+              "y": 43,
+              "hover": false,
+              "zIndex": 1
+            }
+          },
+          {
+            "name": "buffered",
+            "type": "Output Parameter",
+            "inputs": [
+              "outputParam"
+            ],
+            "outputs": [],
+            "metadata": {
+              "preCondition": null,
+              "postCondition": null,
+              "inputTypes": {
+                "outputParam": {
+                  "type": {
+                    "#set": {
+                      "#record": {
+                        "geom": {
+                          "#union": [
+                            "MultiPolygon",
+                            "Polygon"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": true,
+                  "unique": true
+                }
+              },
+              "outputTypes": null
+            },
+            "@id": "task:3",
+            "@type": "task",
+            "style": {
+              "x": 367.16535759251565,
+              "y": 502,
+              "hover": false,
+              "zIndex": 2
+            }
+          }
+        ],
+        "sequenceFlows": [
+          {
+            "from": "task:1",
+            "fromPort": "literal",
+            "to": "task:0",
+            "toPort": "distance",
+            "@type": "flow",
+            "@id": "flow:0",
+            "style": {
+              "source": {
+                "x": 626.5558028155938,
+                "y": 166
+              },
+              "dest": {
+                "x": 454.43844788428396,
+                "y": 319
+              }
+            }
+          },
+          {
+            "from": "task:2",
+            "fromPort": "inputParam",
+            "to": "task:0",
+            "toPort": "features",
+            "@type": "flow",
+            "@id": "flow:1",
+            "style": {
+              "source": {
+                "x": 342.08198194298893,
+                "y": 139
+              },
+              "dest": {
+                "x": 409.43844788428396,
+                "y": 319
+              }
+            }
+          },
+          {
+            "from": "task:0",
+            "fromPort": "buffered",
+            "to": "task:3",
+            "toPort": "outputParam",
+            "@type": "flow",
+            "@id": "flow:2",
+            "style": {
+              "source": {
+                "x": 454.43844788428396,
+                "y": 415
+              },
+              "dest": {
+                "x": 457.16535759251565,
+                "y": 502
+              }
+            }
+          }
+        ],
+        "metadata": {
+          "name": "sdfdfs",
+          "description": "sdfsdf"
+        }
+      },
+      "metadata": {
+        "preCondition": null,
+        "postCondition": null,
+        "inputTypes": {
+          "input": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": "Geometry"
+                }
+              }
+            }
+          }
+        },
+        "outputTypes": {
+          "buffered": {
+            "type": {
+              "#set": {
+                "#record": {
+                  "geom": {
+                    "#union": [
+                      "MultiPolygon",
+                      "Polygon"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": true,
+            "unique": true
+          }
+        }
+      },
+      "id": "paramworkflows:3d69c2b0-dae7-11e5-b121-e589e28a58b2"
+    }
+  ]
+}
