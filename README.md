@@ -5,6 +5,16 @@ Data is stored in a MongoDB. [Config.json](https://github.com/dinizime/cswjs/blo
 
 It is a simplified version of [WFS.js](https://github.com/dinizime/wfsjs) used to store metadata, workflows, and parametric workflows, for the use in the [Orchestration Client](https://github.com/dinizime/orchestration-client).
 
+## Sample Data
+
+The folder [data](/data) contain sample data for each of the configure resources in the WFS. They can be inserted in the database by using a POST operation in the resource, with [Postman](https://www.getpostman.com/), for example.
+
+```
+POST http://localhost:3002/csw/records
+Headers: Accept: application/ld+json
+Body: <data/records.json>
+```
+
 ##Executing Service
 
 After configuring the [Config.json](https://github.com/dinizime/cswjs/blob/master/config.json) file the service can be started by using [Nodemon](https://github.com/remy/nodemon), and executing the command:
