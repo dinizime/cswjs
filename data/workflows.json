@@ -112,6 +112,7 @@
                       "#literal": [
                         "miles",
                         "kilometers",
+                        "meters",
                         "degrees",
                         "radians"
                       ]
@@ -915,6 +916,7 @@
                       "#literal": [
                         "miles",
                         "kilometers",
+                        "meters",
                         "degrees",
                         "radians"
                       ]
