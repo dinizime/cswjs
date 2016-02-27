@@ -822,7 +822,7 @@
                     "#literal": [
                       "miles",
                       "kilometers",
-                      "meters"
+                      "meters",
                       "degrees",
                       "radians"
                     ]
